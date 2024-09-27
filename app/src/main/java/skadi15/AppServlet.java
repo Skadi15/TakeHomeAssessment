@@ -27,8 +27,8 @@ public class AppServlet extends HttpServlet {
     }
 
     private OrderSummary processOrder(final int numApples, final int numOranges) {
-        final float appleCost = numApples * APPLE_COST;
-        final float orangeCost = numOranges * ORANGE_COST;
+        final float appleCost = Math.ceilDiv(numApples, 2) * APPLE_COST; // BOGO free
+        final float orangeCost = (numOranges / 3 * 2 + numOranges % 3) * ORANGE_COST; // 3 for the price of 2
         return OrderSummary.builder()
                 .numApples(numApples)
                 .numOranges(numOranges)

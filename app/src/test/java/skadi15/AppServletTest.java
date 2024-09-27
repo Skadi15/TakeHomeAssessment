@@ -44,7 +44,7 @@ class AppServletTest {
     }
 
     @Test
-    @DisplayName("Order with both fruits")
+    @DisplayName("Order with both fruits and no deals")
     public void orderWithBothFruits() throws IOException {
         when(responseMock.getOutputStream()).thenReturn(outputStreamMock);
 
@@ -52,6 +52,69 @@ class AppServletTest {
                 .numApples(1)
                 .numOranges(2)
                 .totalCost(1.45f)
+                .build();
+
+        appServlet.doPost(createRequest(expectedResult), responseMock);
+
+        verify(responseMock).getOutputStream();
+
+        verify(outputStreamMock).print(outputCaptor.capture());
+        assertEquals(expectedResult.toString(), outputCaptor.getValue());
+
+        verifyNoMoreInteractions(responseMock, outputStreamMock);
+    }
+
+    @Test
+    @DisplayName("Order with both fruits and apple deal")
+    public void orderWithAppleDeal() throws IOException {
+        when(responseMock.getOutputStream()).thenReturn(outputStreamMock);
+
+        final OrderSummary expectedResult = OrderSummary.builder()
+                .numApples(5)
+                .numOranges(2)
+                .totalCost(1.95f)
+                .build();
+
+        appServlet.doPost(createRequest(expectedResult), responseMock);
+
+        verify(responseMock).getOutputStream();
+
+        verify(outputStreamMock).print(outputCaptor.capture());
+        assertEquals(expectedResult.toString(), outputCaptor.getValue());
+
+        verifyNoMoreInteractions(responseMock, outputStreamMock);
+    }
+
+    @Test
+    @DisplayName("Order with both fruits and orange deal")
+    public void orderWithOrangeDeal() throws IOException {
+        when(responseMock.getOutputStream()).thenReturn(outputStreamMock);
+
+        final OrderSummary expectedResult = OrderSummary.builder()
+                .numApples(1)
+                .numOranges(7)
+                .totalCost(3.25f)
+                .build();
+
+        appServlet.doPost(createRequest(expectedResult), responseMock);
+
+        verify(responseMock).getOutputStream();
+
+        verify(outputStreamMock).print(outputCaptor.capture());
+        assertEquals(expectedResult.toString(), outputCaptor.getValue());
+
+        verifyNoMoreInteractions(responseMock, outputStreamMock);
+    }
+
+    @Test
+    @DisplayName("Order with both fruits and both deals")
+    public void orderWithBothDeals() throws IOException {
+        when(responseMock.getOutputStream()).thenReturn(outputStreamMock);
+
+        final OrderSummary expectedResult = OrderSummary.builder()
+                .numApples(4)
+                .numOranges(6)
+                .totalCost(2.9f)
                 .build();
 
         appServlet.doPost(createRequest(expectedResult), responseMock);
