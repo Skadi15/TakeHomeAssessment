@@ -21,7 +21,10 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
 
+    providedCompile("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0")
     providedCompile("jakarta.servlet:jakarta.servlet-api:6.1.0")
+
+    providedCompile("com.fasterxml.jackson.core:jackson-databind:2.17.2")
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
